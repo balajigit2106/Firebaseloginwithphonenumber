@@ -1,22 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import React from "react";
+import { StatusBar } from "react-native";
+import Verify from "./src/verify";
+import "react-native-gesture-handler";
+import MobileNumber from "./src/mobilenumber";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity>
-      <Text>Open up App.js to start working on your app!</Text>
-      </TouchableOpacity>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <Stack.Navigator initialRouteName="Mobilenumberverify">
+        <Stack.Screen
+          name="verify"
+          component={Verify}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Mobilenumberverify"
+          component={MobileNumber}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
