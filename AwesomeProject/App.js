@@ -5,6 +5,7 @@ import "react-native-gesture-handler";
 import MobileNumber from "./src/mobilenumber";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import Logout from "./src/logout";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,11 @@ export default function App() {
         <Stack.Screen
           name="Mobilenumberverify"
           component={MobileNumber}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="logout"
+          component={Logout}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

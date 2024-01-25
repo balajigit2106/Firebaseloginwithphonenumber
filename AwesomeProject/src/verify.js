@@ -5,7 +5,6 @@ import {
   Image,
   TextInput,
   Keyboard,
-  StyleSheet,
   BackHandler,
   ScrollView,
   TouchableOpacity,
@@ -16,6 +15,7 @@ import {
   useIsFocused,
   useNavigation,
 } from "@react-navigation/native";
+import styles from "./styles";
 import auth from "@react-native-firebase/auth";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -23,6 +23,7 @@ export default function Verify() {
   const route = useRoute();
   const isFocuse = useIsFocused();
   const navigation = useNavigation();
+  //usestates
   const [loading, setLoading] = useState(false);
   const [verificationId, setVerificationId] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
@@ -39,9 +40,14 @@ export default function Verify() {
       setOtpError("");
       setOtp(["", "", "", "", "", ""]);
       const getresponse = route.params;
-      console.log("eeeeeeee", getresponse);
-      setVerificationId(getresponse.verificationId);
-      setMobileNumber(getresponse.mobileNumber);
+      if (getresponse) {
+        setVerificationId(
+          getresponse.verificationId ? getresponse.verificationId : ""
+        );
+        setMobileNumber(
+          getresponse.mobileNumber ? getresponse.mobileNumber : ""
+        );
+      }
     }
   }, [isFocuse]);
 
@@ -87,6 +93,7 @@ export default function Verify() {
         concatenatedString
       );
       await auth().signInWithCredential(credential);
+      navigation.navigate("logout");
       console.log("Successfully Verified");
     } catch (error) {
       console.error("Error confirming code:", error.message);
@@ -130,23 +137,23 @@ export default function Verify() {
 
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
-      <View style={styles.container}>
+      <View style={styles.logincontainer}>
         <View style={{ marginBottom: 20, alignItems: "center" }}>
           <Image
             source={require("../images/firebaselogo.png")}
-            style={styles.image}
+            style={styles.firebaseimage}
           />
         </View>
         <View style={styles.card}>
-          <Text style={styles.heading}>OTP Verification</Text>
-          <Text style={styles.welcometext}>
+          <Text style={styles.otp_heading}>OTP Verification</Text>
+          <Text style={{ color: "gray" }}>
             Enter OTP send to +91 {mobileNumber}
           </Text>
           <View style={styles.otpcontainer}>
             {otp.map((value, index) => (
               <TextInput
                 key={index}
-                style={otpError ? styles.errorinput : styles.input}
+                style={otpError ? styles.error_otpinput : styles.otpinput}
                 value={value}
                 maxLength={1}
                 keyboardType="numeric"
@@ -174,7 +181,7 @@ export default function Verify() {
             ""
           )}
           <TouchableOpacity
-            style={loading ? styles.signupdisble_button : styles.signup_button}
+            style={loading ? styles.disble_button : styles.button}
             onPress={handleVerify}
             disabled={loading ? true : false}
           >
@@ -188,7 +195,7 @@ export default function Verify() {
                 <Text style={styles.loading_buttontext}>Loading...</Text>
               </View>
             ) : (
-              <Text fontWeight="bold" style={styles.signup_buttontext}>
+              <Text fontWeight="bold" style={styles.buttontext}>
                 Verify
               </Text>
             )}
@@ -198,88 +205,3 @@ export default function Verify() {
     </ScrollView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    marginTop: 90,
-  },
-  image: {
-    height: 150,
-    width: 300,
-  },
-  card: {
-    width: 320,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 30,
-    elevation: 4,
-    shadowColor: "rgba(0, 0, 0, 0.60)",
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 8,
-  },
-  heading: {
-    fontWeight: "600",
-    fontSize: 20,
-    marginBottom: 6,
-  },
-  welcometext: {
-    color: "gray",
-  },
-  otpcontainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
-    marginBottom: 5,
-  },
-  input: {
-    width: 40,
-    height: 40,
-    borderWidth: 2,
-    borderColor: "gray",
-    textAlign: "center",
-    fontSize: 16,
-  },
-  errorinput: {
-    width: 40,
-    height: 40,
-    borderWidth: 2,
-    borderColor: "#d32f2f",
-    textAlign: "center",
-    fontSize: 16,
-  },
-  prefixText: {
-    marginRight: 10,
-    fontSize: 16,
-  },
-  loading_buttontext: {
-    fontWeight: "700",
-    color: "white",
-  },
-  signup_buttontext: {
-    color: "white",
-    fontWeight: "600",
-  },
-  signup_button: {
-    backgroundColor: "#5383EC",
-    width: "100%",
-    height: 44,
-    borderRadius: 19,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  signupdisble_button: {
-    backgroundColor: "#5383EC",
-    opacity: 0.7,
-    width: "100%",
-    height: 44,
-    borderRadius: 19,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-});
