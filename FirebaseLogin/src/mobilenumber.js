@@ -20,29 +20,34 @@ export default function MobileNumber() {
   const [mobileNumber, setMobileNumber] = useState("");
   const [mobileNumberError, setMobileNumberError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [validationTerigger, setValidationTrigger] = useState(false);
   console.log("verify", verificationId);
 
   useEffect(() => {
     if (isFocus) {
       setMobileNumber("");
       setLoading(false);
+      setValidationTrigger(false);
       setMobileNumberError("");
     }
   }, [isFocus]);
 
   const handleMobile = (text) => {
     setMobileNumber(text);
-    if (text.length <= 0) {
-      setMobileNumberError(" Mobile number is required");
-    } else if (text.length < 10) {
-      setMobileNumberError(" Mobile number is not valid");
-    } else {
-      setMobileNumberError("");
+    if (validationTerigger) {
+      if (text.length <= 0) {
+        setMobileNumberError(" Mobile number is required");
+      } else if (text.length < 10) {
+        setMobileNumberError(" Mobile number is not valid");
+      } else {
+        setMobileNumberError("");
+      }
     }
   };
 
   const signInWithPhoneNumber = async () => {
     Keyboard.dismiss();
+    setValidationTrigger(true);
     let mobileValidate;
     if (mobileNumber.length <= 0) {
       mobileValidate = " Mobile number is required";
@@ -69,6 +74,20 @@ export default function MobileNumber() {
     } catch (error) {
       setLoading(false);
       console.log("Error sending confirmation code:", error.message);
+      if (
+        error.message ===
+        "[auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later."
+      ) {
+        setMobileNumberError(
+          "Too many attempts. use alternative number or try again later."
+        );
+      }
+      if (
+        error.message ===
+        "[auth/invalid-phone-number] The format of the phone number provided is incorrect. Please enter the phone number in a format that can be parsed into E.164 format. E.164 phone numbers are written in the format [+][country code][subscriber number including area code]."
+      ) {
+        setMobileNumberError("Invalid mobile number");
+      }
     }
   };
 
