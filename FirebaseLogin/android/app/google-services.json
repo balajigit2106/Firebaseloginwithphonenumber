@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "465353908153",
+    "project_id": "verificationbyotp-38986",
+    "storage_bucket": "verificationbyotp-38986.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465353908153:android:2390185a4d757669af6068",
+        "android_client_info": {
+          "package_name": "com.balaji_expo.AwesomeProject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAilVXmWzqWdMRhArFl8M_gx9ZDegBM0TE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

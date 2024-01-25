@@ -79,7 +79,7 @@ export default function MobileNumber() {
         "[auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later."
       ) {
         setMobileNumberError(
-          "Too many attempts. use alternative number or try again later."
+          "Too many requests. use alternative number or try again later."
         );
       }
       if (
@@ -101,9 +101,7 @@ export default function MobileNumber() {
           />
         </View>
         <View style={styles.card}>
-          <TouchableOpacity onPress={() => navigation.navigate("logout")}>
-            <Text style={styles.welcome_heading}>Welcome!</Text>
-          </TouchableOpacity>
+          <Text style={styles.welcome_heading}>Welcome!</Text>
           <Text style={styles.welcometext}>Verify your number in firebase</Text>
           <View
             style={
